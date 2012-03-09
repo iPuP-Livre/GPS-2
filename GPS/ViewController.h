@@ -18,5 +18,7 @@
     UILabel *_labelReverseGeoCoder;
     UIButton *_buttonLaunchReverseGeocoder;
     UIActivityIndicatorView *_activityReverseGeoCoder;
+    
+    NSMutableArray *_arrayOfAnnotations; 
 }
 @end

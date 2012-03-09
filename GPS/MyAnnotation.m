@@ -9,5 +9,8 @@
 #import "MyAnnotation.h"
 
 @implementation MyAnnotation
+@synthesize title = _title;
+@synthesize subtitle = _subtitle;
+@synthesize coordinate = _coordinate;
 
 @end

@@ -17,6 +17,8 @@
 		E0F01DC3150964AF0069258D /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0F01DC1150964AF0069258D /* ViewController.xib */; };
 		E0F01DCA1509653D0069258D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F01DC91509653D0069258D /* MapKit.framework */; };
 		E0F01DCC150965C10069258D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F01DCB150965C10069258D /* CoreLocation.framework */; };
+		E0F01DD31509B4E10069258D /* MyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F01DD21509B4E10069258D /* MyAnnotation.m */; };
+		E0F01DD61509B8710069258D /* annotationImage.png in Resources */ = {isa = PBXBuildFile; fileRef = E0F01DD51509B8710069258D /* annotationImage.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,9 @@
 		E0F01DC2150964AF0069258D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		E0F01DC91509653D0069258D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E0F01DCB150965C10069258D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E0F01DD11509B4E10069258D /* MyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnnotation.h; sourceTree = "<group>"; };
+		E0F01DD21509B4E10069258D /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnnotation.m; sourceTree = "<group>"; };
+		E0F01DD51509B8710069258D /* annotationImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = annotationImage.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +95,9 @@
 				E0F01DBE150964AF0069258D /* ViewController.h */,
 				E0F01DBF150964AF0069258D /* ViewController.m */,
 				E0F01DC1150964AF0069258D /* ViewController.xib */,
+				E0F01DD11509B4E10069258D /* MyAnnotation.h */,
+				E0F01DD21509B4E10069258D /* MyAnnotation.m */,
+				E0F01DD51509B8710069258D /* annotationImage.png */,
 				E0F01DB3150964AF0069258D /* Supporting Files */,
 			);
 			path = GPS;
@@ -158,6 +166,7 @@
 			files = (
 				E0F01DB7150964AF0069258D /* InfoPlist.strings in Resources */,
 				E0F01DC3150964AF0069258D /* ViewController.xib in Resources */,
+				E0F01DD61509B8710069258D /* annotationImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +180,7 @@
 				E0F01DB9150964AF0069258D /* main.m in Sources */,
 				E0F01DBD150964AF0069258D /* AppDelegate.m in Sources */,
 				E0F01DC0150964AF0069258D /* ViewController.m in Sources */,
+				E0F01DD31509B4E10069258D /* MyAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +292,7 @@
 				E0F01DC8150964AF0069258D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

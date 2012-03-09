@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "MyAnnotation.h"
 
 @interface ViewController ()
 
@@ -46,6 +47,25 @@
     _activityReverseGeoCoder.hidesWhenStopped = YES;
     _activityReverseGeoCoder.center = CGPointMake(260, 430);
     [self.view addSubview:_activityReverseGeoCoder];
+    
+    
+    
+    // Ajout des annotations
+    _arrayOfAnnotations = [[NSMutableArray alloc] initWithCapacity:2];
+    
+    MyAnnotation *annotation = [[MyAnnotation alloc] init];
+    annotation.title = @"Paris";
+    annotation.subtitle = @"Capitale de la france";
+    annotation.coordinate = CLLocationCoordinate2DMake(48.0+52.0/60.0, 2.0+20.0/60.0);
+    [_arrayOfAnnotations addObject:annotation];
+    
+    annotation = [[MyAnnotation alloc] init];
+    annotation.title = @"Marseille";
+    annotation.subtitle = @"La ville du soleil";
+    annotation.coordinate = CLLocationCoordinate2DMake(43.0+17.0/60.0, 5.0+22.0/60.);
+    [_arrayOfAnnotations addObject:annotation];
+    
+    [_myMapView addAnnotations:_arrayOfAnnotations];
     
 }
 
@@ -89,12 +109,68 @@
                         }];
     }    
 }
+
+- (void) displayDetails : (id) sender {
+    NSLog(@"ici, on pourrait présenter un controller qui afficherait le détail de l'annotation");  
+}
+
 #pragma mark - MKMapView delegate
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
     // on zoome
     MKCoordinateSpan span = {0.01, 0.01};
     [mapView setRegion:MKCoordinateRegionMake(mapView.userLocation.location.coordinate, span) animated:YES];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    // si c'est la position de l'utilisateur, on laisse tel quel
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    
+    // On teste nos types d'annotations. Ici c'est inutile car on en a qu'une, mais au moins vous saurez le faire !
+    if ([annotation isKindOfClass:[MyAnnotation class]])
+    {
+        //On essaye de dépiler une annotation view en premier
+        static NSString* MyAnnotationIdentifier = @"myAnnotationIdentifier";
+        MKPinAnnotationView* pinView = (MKPinAnnotationView *)[theMapView dequeueReusableAnnotationViewWithIdentifier:MyAnnotationIdentifier];
+        if (!pinView)
+        {
+            // Si il n'y en avait aucune de disponible, on en crée une tout simplement !
+            MKPinAnnotationView* customPinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation
+                                                                                 reuseIdentifier:MyAnnotationIdentifier];
+            
+            customPinView.pinColor = MKPinAnnotationColorGreen;
+            customPinView.animatesDrop = YES;
+            customPinView.canShowCallout = YES;
+            
+            // On ajoute une petite flèche sur le côté pour afficher plus d'informations en cliquant dessus
+            //
+            // Info : on pourrait implémenter directement :
+            //  - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control;
+            //L'avantage ici est de choisir ce que l'on veut mettre
+            
+            UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            [rightButton addTarget:self
+                            action:@selector(displayDetails:)
+                  forControlEvents:UIControlEventTouchUpInside];
+            customPinView.rightCalloutAccessoryView = rightButton;
+            
+            // ajout d'une image à gauche
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+            imageView.image = [UIImage imageNamed:@"annotationImage.png"];
+            customPinView.leftCalloutAccessoryView = imageView;
+            
+            return customPinView;
+        }
+        else
+        {
+            pinView.annotation = annotation;
+        }
+        return pinView;
+    }
+    
+    return nil;
 }
 
 - (void)viewDidUnload
