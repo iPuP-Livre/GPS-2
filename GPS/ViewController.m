@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "MyAnnotation.h"
+#import "MyAnnotationView.h"
 
 @interface ViewController ()
 
@@ -172,6 +173,39 @@
     
     return nil;
 }
+
+
+// astuce pour commenter / décommenter un block : sélectionner le block puis  + / ou  + shift + :
+
+//- (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
+//{
+//    // si c'est la position de l'utilisateur, on laisse tel quel
+//    if ([annotation isKindOfClass:[MKUserLocation class]])
+//        return nil;
+//    
+//    // On teste nos types d'annotations. Ici c'est inutile car on en a qu'une, mais au moins vous saurez le faire !
+//    if ([annotation isKindOfClass:[MyAnnotation class]])
+//    {
+//        //On essaye de dépiler une annotation view en premier
+//        static NSString* MyAnnotationIdentifier = @"myAnnotationIdentifier";
+//        MyAnnotationView* pinView = (MyAnnotationView *)[theMapView dequeueReusableAnnotationViewWithIdentifier:MyAnnotationIdentifier];
+//        if (!pinView)
+//        {
+//            // Si il n'y en avait aucune de disponible, on en crée une tout simplement !
+//            MyAnnotationView* customPinView = [[MyAnnotationView alloc] initWithAnnotation:annotation
+//                                                                                 reuseIdentifier:MyAnnotationIdentifier];
+//            
+//            return customPinView;
+//        }
+//        else
+//        {
+//            pinView.annotation = annotation;
+//        }
+//        return pinView;
+//    }
+//    
+//    return nil;
+//}
 
 - (void)viewDidUnload
 {

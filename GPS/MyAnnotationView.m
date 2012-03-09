@@ -10,22 +10,28 @@
 
 @implementation MyAnnotationView
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+    self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+    if (self != nil)
+    {
+        UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        view.image = [UIImage imageNamed:@"annotationImage.png"];
+        [self addSubview:view];
     }
     return self;
 }
 
+- (void)setAnnotation:(id <MKAnnotation>)annotation
+{
+    [super setAnnotation:annotation];
+    // pour updater si besoin l'affichage lors que l'on utilise reuseIdentifier
+    [self setNeedsDisplay];
+}
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    // Drawing code
-}
-*/
+    // à implémenter si besoin de dessiner
+}*/
 
 @end
