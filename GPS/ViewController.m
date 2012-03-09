@@ -29,7 +29,8 @@
     [self.view addSubview:_myMapView];
     
     // déclaration du label affichant l'adresse actuelle de l'utilisateur
-    _labelReverseGeoCoder = [[UILabel alloc] initWithFrame:CGRectMake(20, 380, 280, 38)];
+    _labelReverseGeoCoder = [[UILabel alloc] initWithFrame:CGRectMake(20, 360, 280, 70)];
+    _labelReverseGeoCoder.numberOfLines = 2;
     _labelReverseGeoCoder.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_labelReverseGeoCoder];
     
@@ -48,10 +49,61 @@
     
 }
 
+#pragma mark - Button methods
+- (void)reverseGeocodeCurrentLocation : (id) sender
+{
+    // test de la précision
+    if(_myMapView.userLocation.location.horizontalAccuracy > 100.0) // distance en mètres
+    {
+        //précision insuffisante, on affiche une alert view
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Erreur" 
+                                                       message:[NSString stringWithFormat:@"La précision de %.2f m est insuffisante", _myMapView.userLocation.location.horizontalAccuracy]    
+                                                      delegate:nil
+                                             cancelButtonTitle:@"Ok"
+                                             otherButtonTitles:nil];
+        [alert show];
+    }
+    else
+    {
+        // la précision est suffisante, on demande à faire un reverse
+        [_activityReverseGeoCoder startAnimating];
+        
+        // on lance le reverse geo coder
+        // on alloue init, si pas encore alloué
+        if (!_geoCoder) _geoCoder = [[CLGeocoder alloc] init];
+        // on lance le reverse geo coding
+        [_geoCoder reverseGeocodeLocation:_myMapView.userLocation.location
+                        completionHandler:^(NSArray *placemarks, NSError *error) {
+                            if (!error) {
+                                if (placemarks.count != 0) {
+                                    // Si pas d'erreurs et si un ou plusieurs résultats ont été trouvés, alors on affiche le premier résultat du tableau
+                                    CLPlacemark *placemark = (CLPlacemark*)[placemarks objectAtIndex:0];
+                                    _labelReverseGeoCoder.text = [NSString stringWithFormat:@"%@, %@, %@, %@", placemark.country, placemark.postalCode, placemark.locality, placemark.thoroughfare];
+                                    // on arrête l'animation de chargement
+                                    [_activityReverseGeoCoder stopAnimating]; 
+                                }
+                            }
+                            else {
+                                NSLog(@"error on geo code %@", [error localizedDescription]);
+                            }
+                        }];
+    }    
+}
+#pragma mark - MKMapView delegate
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+    // on zoome
+    MKCoordinateSpan span = {0.01, 0.01};
+    [mapView setRegion:MKCoordinateRegionMake(mapView.userLocation.location.coordinate, span) animated:YES];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    _myMapView = nil; 
+    _activityReverseGeoCoder = nil;
+    _labelReverseGeoCoder = nil;
+    _buttonLaunchReverseGeocoder = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
